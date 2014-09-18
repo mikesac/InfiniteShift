@@ -20,12 +20,12 @@ public class FightEngine {
 
 	/* ***************** START SPRING BEANS ***************** */
 	
-	private DaoManager daoManager;
-	private MagicEngine magicEngine;
-	private ItemsEngine itemsEngine;
+	private static DaoManager daoManager;
+	private static MagicEngine magicEngine;
+	private static ItemsEngine itemsEngine;
 	
 	public void setDaoManager(DaoManager daoManager) {
-		this.daoManager = daoManager;
+		FightEngine.daoManager = daoManager;
 	}
 
 	public DaoManager getDaoManager() {
@@ -33,7 +33,7 @@ public class FightEngine {
 	}
 	
 	public void setMagicEngine(MagicEngine magicEngine) {
-		this.magicEngine = magicEngine;
+		FightEngine.magicEngine = magicEngine;
 	}
 
 	public MagicEngine getMagicEngine() {
@@ -45,7 +45,7 @@ public class FightEngine {
 	}
 
 	public void setItemsEngine(ItemsEngine itemsEngine) {
-		this.itemsEngine = itemsEngine;
+		FightEngine.itemsEngine = itemsEngine;
 	}
 	/* ***************** END SPRING BEANS ***************** */
 	

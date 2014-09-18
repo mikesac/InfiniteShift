@@ -3,16 +3,11 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 8-lug-2009 10.08.08 by Hibernate Tools 3.2.4.CR1 -->
 <hibernate-mapping>
-    <class name="org.infinite.db.dto.Npc" table="NPC" catalog="mikesac_mikesac">
+    <class name="org.infinite.db.dto.Npc" table="NPC" catalog="infinite">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
-        </id>        
-        <property name="quest" type="java.lang.Integer">
-            <column name="assignQuest" not-null="true">
-                <comment>quest the npc can assign</comment>
-            </column>
-        </property>
+        </id>
         <property name="name" type="string">
             <column name="name" not-null="true">
                 <comment>NPC name</comment>

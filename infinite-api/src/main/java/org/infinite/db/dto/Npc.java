@@ -10,7 +10,6 @@ public class Npc implements java.io.Serializable {
 	private static final long serialVersionUID = -6006619900013706731L;
 	
 	private Integer id;
-	private Integer quest;
 	private String name;
 	private String image;
 	private String description;
@@ -44,7 +43,7 @@ public class Npc implements java.io.Serializable {
 			Integer basePm, Integer basePa, Integer basePc, Integer level,
 			Integer px, Integer status, float gold, short nitem,
 			boolean useWpn, boolean useShld, boolean useArm, String dialog,
-			boolean ismonster, Integer areatype, Integer nattack, String attack,Integer quest) {
+			boolean ismonster, Integer areatype, Integer nattack, String attack) {
 		this.name = name;
 		this.image = image;
 		this.description = description;
@@ -69,7 +68,6 @@ public class Npc implements java.io.Serializable {
 		this.areatype = areatype;
 		this.nattack = nattack;
 		this.attack = attack;
-		this.quest = quest;
 	}
 
 	public Integer getId() {
@@ -78,14 +76,6 @@ public class Npc implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getQuest() {
-		return this.quest;
-	}
-
-	public void setQuest(Integer quest) {
-		this.quest = quest;
 	}
 
 	public String getName() {

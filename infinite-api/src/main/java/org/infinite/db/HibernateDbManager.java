@@ -65,14 +65,15 @@ public class HibernateDbManager implements DbManager{
 	}
 
 
-	public Integer create(Object o){
-		Integer out = null;
+	public boolean create(Object o){
+		boolean b = true;
 		try {
-			out = (Integer)getHibernateTemplate().save(o);
+			getHibernateTemplate().save(o);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
+			b = false;
 		}
-		return out;
+		return b;
 	}
 
 	public boolean update(Object o){
