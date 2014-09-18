@@ -1,84 +1,174 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!--
-  <parent>
-    <artifactId>InfiniteBase</artifactId>
-    <groupId>org.infiniteworld</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-   -->
-    
-    <groupId>org.infiniteworld</groupId>
-  <artifactId>Infinite</artifactId>
-     <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-    
-  <name>InfiniteWorld Web Interface</name>
-    <description>Administration section to create worlds plus basic game UI</description>
- 
-    
-    <modules>
-      <module>infinite-base</module>
-      <module>infinite-api</module>
-    </modules>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.infiniteworld</groupId>
-      <artifactId>InfiniteApi</artifactId>
-      <version>0.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>2.3.8</version>
-    </dependency>
-    <dependency>
-      <groupId>opensymphony</groupId>
-      <artifactId>sitemesh</artifactId>
-      <version>2.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.octo.captcha</groupId>
-      <artifactId>jcaptcha-all</artifactId>
-      <version>1.0-RC4</version>
-    </dependency>
-
-  </dependencies>
+  <groupId>org.infiniteworld</groupId>
+  <artifactId>InfiniteBase</artifactId>
+  <packaging>pom</packaging>
   
-  <build>
-    <finalName>Infinite</finalName>
+  <version>1.0</version>
 
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>tomcat-maven-plugin</artifactId>
-        <configuration>
-          <url>http://localhost:8080/manager/</url>
-          <username>admin</username>
-          <password>sonoadmin</password>
-        </configuration>
-      </plugin>
+  <name>InfiniteWorld Base pom</name>
+  <description>include configuration &amp; common libraries</description>
+  <url>http://infinite.hostignition.com</url>
 
-    </plugins>
+    <modules>
+      <module>infinite-api</module>
+      <module>infinite-web</module>
+    </modules>
+  
+  <developers>
+		<developer>
+			<id>mikesac</id>
+			<name>Michele Sacchetti</name>
+			<email>michele.sacchetti@gmail.com</email>
+			<url>http://www.linkedin.com/in/michelesacchetti</url>
+			<roles>
+				<role>Creator &amp; Developer</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<contributors>
+		<contributor>
+			<name>Giulio Cicala</name>
+			<email>nembocikus@yahoo.it</email><roles>
+				<role>Content Creator &amp; Testing</role>
+			</roles>
+		</contributor>
+	</contributors>
+	
+	<repositories>
+		<repository>
+			<id>repo2.maven.org</id>
+			<name>maven</name>
+			<url>http://repo2.maven.org/maven2/</url>
+		</repository>
+	</repositories>
+	
+	<dependencies>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.3</version>
+			<scope>provided</scope>
+		</dependency>
 
-  </build>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>2.5.3</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.0.8</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>3.3.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.8</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.8</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.9</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.8.0.GA</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+<artifactId>json-simple</artifactId>
+<version>1.1</version>
+</dependency>
+
+	</dependencies>
+	
+	
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+	
+	<profiles>
+		<!-- profile to upload to Sonar -->
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sonar.jdbc.url>jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+				<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
+				<sonar.jdbc.username>sonar</sonar.jdbc.username>
+				<sonar.jdbc.password>sonar</sonar.jdbc.password>
+				<sonar.host.url>http://127.0.0.1:8080/sonar/</sonar.host.url>
+			</properties>
+		</profile>
+	</profiles>
 </project>
