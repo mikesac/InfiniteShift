@@ -1,22 +1,47 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.infiniteworld</groupId>
-  <artifactId>InfiniteBase</artifactId>
-  <packaging>pom</packaging>
-  
-  <version>1.0</version>
+	<groupId>org.infiniteworld</groupId>
+	<artifactId>InfiniteBase</artifactId>
+	<packaging>pom</packaging>
 
-  <name>InfiniteWorld Base pom</name>
-  <description>include configuration &amp; common libraries</description>
-  <url>http://infinite.hostignition.com</url>
+	<version>1.0</version>
 
-    <modules>
-      <module>infinite-api</module>
-      <module>infinite-web</module>
-    </modules>
-  
-  <developers>
+	<name>InfiniteWorld Base pom</name>
+	<description>include configuration &amp; common libraries</description>
+	<url>http://infinite.hostignition.com</url>
+
+	<properties>
+		<java.opt>1.6</java.opt>
+		<charset>UTF-8</charset>
+		<project.build.sourceEncoding>${charset}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${charset}</project.reporting.outputEncoding>
+
+		<!-- These properties are default one to use DB on integration tests -->
+		<integration-test.db.skipcreate.ut>false</integration-test.db.skipcreate.ut>
+		<integration-test.db.skipcreate.it>true</integration-test.db.skipcreate.it>
+		<integration-test.db.skipdrop.ut>false</integration-test.db.skipdrop.ut>
+		<integration-test.db.skipdrop.it>true</integration-test.db.skipdrop.it>
+
+		<integration-test.db.user>root</integration-test.db.user>
+		<integration-test.db.password>asdf10</integration-test.db.password>
+		<integration-test.db.name>infinite</integration-test.db.name>
+		<integration-test.db.host>localhost</integration-test.db.host>
+		<integration-test.db.port>3306</integration-test.db.port>
+		<integration-test.db.jdbc.url>jdbc:mysql://${integration-test.db.host}:${integration-test.db.port}/${integration-test.db.name}?useUnicode=true</integration-test.db.jdbc.url>
+		<integration-test.db.driver.class.name>com.mysql.jdbc.Driver</integration-test.db.driver.class.name>
+
+		<mysql_driver.version>5.1.26</mysql_driver.version>
+
+	</properties>
+
+	<modules>
+		<module>infinite-api</module>
+		<module>infinite-web</module>
+	</modules>
+
+	<developers>
 		<developer>
 			<id>mikesac</id>
 			<name>Michele Sacchetti</name>
@@ -27,16 +52,17 @@
 			</roles>
 		</developer>
 	</developers>
-	
+
 	<contributors>
 		<contributor>
 			<name>Giulio Cicala</name>
-			<email>nembocikus@yahoo.it</email><roles>
+			<email>nembocikus@yahoo.it</email>
+			<roles>
 				<role>Content Creator &amp; Testing</role>
 			</roles>
 		</contributor>
 	</contributors>
-	
+
 	<repositories>
 		<repository>
 			<id>repo2.maven.org</id>
@@ -44,7 +70,7 @@
 			<url>http://repo2.maven.org/maven2/</url>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 
 		<dependency>
@@ -125,21 +151,21 @@
 		</dependency>
 
 		<dependency>
-    <groupId>com.googlecode.json-simple</groupId>
-<artifactId>json-simple</artifactId>
-<version>1.1</version>
-</dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
 
 	</dependencies>
-	
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>${java.opt}</source>
+					<target>${java.opt}</target>
 				</configuration>
 			</plugin>
 
@@ -152,9 +178,97 @@
 				</configuration>
 			</plugin>
 
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql_driver.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<driverProperties>useUnicode=true</driverProperties>
+					<encoding>${charset}</encoding>
+					<driver>${integration-test.db.driver.class.name}</driver>
+					<url>${integration-test.db.jdbc.url}</url>
+					<username>${integration-test.db.user}</username>
+					<password>${integration-test.db.password}</password>
+					<forceMojoExecution>true</forceMojoExecution>
+				</configuration>
+				<executions>
+					<execution>
+						<id>drop-db-before-create-ut</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:mysql://${integration-test.db.host}:${integration-test.db.port}/mysql</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>drop database `${integration-test.db.name}`</sqlCommand>
+							<!-- ignore error when database is not avaiable -->
+							<onError>continue</onError>
+							<skip>${integration-test.db.skipcreate.ut}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-db-after-ut</id>
+						<phase>package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:mysql://${integration-test.db.host}:${integration-test.db.port}/mysql</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>drop database `${integration-test.db.name}`</sqlCommand>
+							<!-- ignore error when database is not avaiable -->
+							<onError>continue</onError>
+							<skip>${integration-test.db.skipdrop.ut}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-db-before-ut</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<url>jdbc:mysql://${integration-test.db.host}:${integration-test.db.port}/mysql</url>
+							<!-- no transaction -->
+							<autocommit>true</autocommit>
+							<sqlCommand>create database `${integration-test.db.name}`</sqlCommand>
+							<skip>${integration-test.db.skipcreate.ut}</skip>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-db</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>${basedir}/../db/infinite.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+
+
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
-	
+
 	<profiles>
 		<!-- profile to upload to Sonar -->
 		<profile>
